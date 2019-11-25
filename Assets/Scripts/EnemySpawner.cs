@@ -16,6 +16,7 @@ public class EnemySpawner : NetworkBehaviour
 
     void SpawnEnemy()
     {
+        // Set the position, instantiate it also in the network and destroy it after 10s
         Vector3 spawnPosition = new Vector3(Random.Range(-4f, 4f), transform.position.y, Random.Range(-4f, 4f));
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity) as GameObject;
         NetworkServer.Spawn(enemy);

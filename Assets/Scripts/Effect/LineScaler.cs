@@ -12,17 +12,16 @@ public class LineScaler : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        // Scale the Line
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.widthMultiplier = scale;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         lineRenderer.widthMultiplier = scale;        

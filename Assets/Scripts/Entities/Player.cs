@@ -33,22 +33,18 @@ public class Player : NetworkBehaviour
     {
         rigid = GetComponent<Rigidbody>();
 
-        // 1 Line Code
-        //attachedCamera.enabled = isLocalPlayer;
-
+        // Set the camera depending if is a local player or another player
         attachedCamera.transform.SetParent(null);
         attachedVirtualCamera.transform.SetParent(null);
 
         if (isLocalPlayer)
         {
             attachedCamera.enabled = true;
-            //attachedCamera.rect = new Rect(0f, 0f, 0.5f, 1.0f);
             attachedVirtualCamera.gameObject.SetActive(true);
         }
         else
         {
             attachedCamera.enabled = false;
-            //attachedCamera.rect = new Rect(0.5f, 0f, 0.5f, 1.0f);
             attachedVirtualCamera.gameObject.SetActive(false);
         }
     }
@@ -59,6 +55,7 @@ public class Player : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider col)
     {
+        // Collect the item if collides with it
         Item item = col.GetComponent<Item>();
         if (item)
         {
@@ -69,6 +66,7 @@ public class Player : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            // Movement of the player
             float inputH = Input.GetAxis("Horizontal");
             float inputV = Input.GetAxis("Vertical");
             Move(inputH, inputV);
@@ -87,6 +85,7 @@ public class Player : NetworkBehaviour
     #endregion
     #region Commands
     [Command]
+    // Spawn Bombs in your position
     public void CmdSpawnBomb(Vector3 position)
     {
         GameObject bomb = Instantiate(bombPrefab, position, Quaternion.identity);
@@ -96,11 +95,13 @@ public class Player : NetworkBehaviour
     #region Custom
     private void Jump()
     {
+        // Custom If is grounded you can jump once
         if (isGrounded)
         {
             rigid.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
     }
+    // Custom movement
     private void Move(float inputH, float inputV)
     {
         Vector3 direction = new Vector3(inputH, 0, inputV);

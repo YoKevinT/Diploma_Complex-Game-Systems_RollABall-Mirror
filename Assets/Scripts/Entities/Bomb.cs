@@ -23,6 +23,7 @@ public class Bomb : NetworkBehaviour
     }
     void Awake()
     {
+        // Get the animation
         anim = GetComponent<Animation>();
     }
     void Start()
@@ -32,20 +33,24 @@ public class Bomb : NetworkBehaviour
 
     public IEnumerator Explode()
     {
+        // After a few seconds explode
         yield return new WaitForSeconds(explosionDelay);
 
         Explode(transform.position, explosionRadius);
         CmdExplode(transform.position, explosionRadius);
 
+        // Play the shrink animation
         anim.Play("Shrink");
 
         yield return new WaitForSeconds(destroyDelay);
 
+        // Finally destroy the gameObject
         NetworkServer.Destroy(gameObject);
     }
 
     void CreateLine(Vector3 start, Vector3 end)
     {
+        // Have a line renderer into the bomb
         GameObject clone = Instantiate(linePrefab, transform);
         LineRenderer line = clone.GetComponent<LineRenderer>();
         line.positionCount = 2;
@@ -56,6 +61,7 @@ public class Bomb : NetworkBehaviour
     [Command]
     void CmdExplode(Vector3 position, float radius)
     {
+        // Have the ability of destroying on the Network
         Collider[] hits = Physics.OverlapSphere(position, radius);
         foreach (var hit in hits)
         {
@@ -69,6 +75,7 @@ public class Bomb : NetworkBehaviour
 
     void Explode(Vector3 position, float radius)
     {
+        // Have the line on Network
         Collider[] hits = Physics.OverlapSphere(position, radius);
         foreach (var hit in hits)
         {

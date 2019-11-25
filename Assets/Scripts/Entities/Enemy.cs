@@ -16,6 +16,7 @@ public class Enemy : NetworkBehaviour
 
     void Start()
     {
+        // Get the NavMeshAgent and follow the target
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag(targetTag).transform;
     }
